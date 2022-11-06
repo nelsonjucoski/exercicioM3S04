@@ -11,3 +11,12 @@ INSERT INTO public.cliente(nome, cpf, rg) VALUES ('Leticia Jucoski', 48768721900
 
 INSERT INTO public.pedido(id_cliente, id_forma_pagamento)VALUES ( 1, 1);
 INSERT INTO public.itens_pedido(quantidade, valor_item, id_pedido, id_produto) VALUES ( 2, 28.88, 1, 1);
+
+INSERT INTO public.role(nome_role) VALUES ('ROLE_ADMIN');
+INSERT INTO public.role(nome_role) VALUES ('ROLE_CAIXA');
+
+INSERT INTO public.usuario(login, nome, senha) VALUES ('brunomoura', 'Bruno Moura', '$2a$10$8okjbHGqFzdFAX.XtVBO6eEZWi4F7W285Yy6ZsQC9ZyecUB.gO91C'); -- 102030
+INSERT INTO public.usuarios_role(usuario_id, role_id) VALUES (1, 1);
+
+INSERT INTO public.usuario(login, nome, senha) VALUES ('danielamartins', 'Daniela Martins', '$2a$10$umA2cp3zGaSMPAGreI3PKePL9eZaDcravDUIONL./dbk1g.LQS7hW'); -- 203040
+INSERT INTO public.usuarios_role(usuario_id, role_id) VALUES (2, 2);
