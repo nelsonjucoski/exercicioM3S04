@@ -1,6 +1,5 @@
 package com.exercicio.modulo3.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -21,15 +19,14 @@ public class UsuarioModel implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
-
     private String senha;
 
-    private  String nome;
+    private String nome;
 
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)//TODO
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<TelefoneModel> telefoneModels = new ArrayList<TelefoneModel>();
 

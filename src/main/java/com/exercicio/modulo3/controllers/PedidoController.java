@@ -6,6 +6,8 @@ import com.exercicio.modulo3.dto_outputs.PedidoDtoOutput;
 import com.exercicio.modulo3.models.ItensPedidoModel;
 import com.exercicio.modulo3.models.PedidoModel;
 import com.exercicio.modulo3.services.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = "Pedidos")
 @RestController
 @RequestMapping(value = "/pedidos")
 public class PedidoController {
@@ -33,34 +36,39 @@ public class PedidoController {
     @Autowired
     private ItensPedidoService itensPedidoService;
 
+    @ApiOperation(value = "Salvar pedido")
     @PostMapping(name = "/", produces = "application/json")
     public ResponseEntity<PedidoDtoOutput> cadastrar(@RequestBody PedidoDtoInput pedidoDtoInput) {
         PedidoModel pedidoModel = pedidoService.salvar(converteDtoInput(pedidoDtoInput));
         return new ResponseEntity<PedidoDtoOutput>(converteDtoOutput(pedidoModel), HttpStatus.CREATED);
     }
+    @ApiOperation(value = "Atualizar pedido")
     @PutMapping(name = "/", produces = "application/json")
     public ResponseEntity<PedidoDtoOutput> atualizar(@RequestBody PedidoDtoInput pedidoDtoInput){
         PedidoModel pedidoModel = pedidoService.salvar(converteDtoInput(pedidoDtoInput));
         return new ResponseEntity<PedidoDtoOutput>(converteDtoOutput(pedidoModel), HttpStatus.OK);
     }
+    @ApiOperation(value = "Deletar pedido")
     @DeleteMapping
     @ResponseBody
     public  ResponseEntity<String> delete(@RequestParam Long idPedido){
         pedidoService.delete(idPedido);
         return new ResponseEntity<String>("Pedido deletado com sucesso!!!", HttpStatus.OK);
     }
-
+    @ApiOperation(value = "Buscar pedido por ID")
     @GetMapping(value = "/buscaporid/{idPedido}", produces = "application/json")
     public ResponseEntity<PedidoDtoOutput> buscaPedidoId(@PathVariable(value = "idPedido") Long idPedido) {
         PedidoDtoOutput pedidoDtoOutput = converteDtoOutput(pedidoService.pegaPedidoPorId(idPedido));
         return new ResponseEntity<PedidoDtoOutput>(pedidoDtoOutput, HttpStatus.OK);
     }
+    @ApiOperation(value = "Listar todos os pedidos")
     @GetMapping(value = "/", produces = "application/json")
     @ResponseBody
     public ResponseEntity<List<PedidoDtoOutput>> listaPedidos(){
         List<PedidoModel> pedidoModels = pedidoService.listaPedidos();
         return new ResponseEntity<List<PedidoDtoOutput>>(converteListPedido(pedidoModels), HttpStatus.OK);
     }
+    @ApiOperation(value = "Listar pedidos por cliente")
     @GetMapping(value = "/cliente/{idCliente}")
     private ResponseEntity<List<PedidoDtoOutput>> pedidosPorIdCliente(@PathVariable(name = "idCliente")Long idCliente){
         List<PedidoModel> pedidoModels = pedidoService.pegaPedidoPorIdCliente(idCliente);
